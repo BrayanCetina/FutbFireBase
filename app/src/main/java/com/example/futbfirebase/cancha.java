@@ -1,10 +1,12 @@
 package com.example.futbfirebase;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,6 +14,16 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import io.opencensus.tags.Tag;
 
 public class cancha extends AppCompatActivity {
     ProgressBar barra;
@@ -45,6 +57,24 @@ public class cancha extends AppCompatActivity {
         }, milisegundos);
     }
     public void finalizarjuego() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Map<String, Object> user = new HashMap<>();
+        user.put("puntos",txtMarcador.getText().toString());
+        user.put("usuario",txtUser.getText().toString());
+
+        db.collection("Marcadores").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                String TAG = "";
+                Log.d(TAG,"Document" + documentReference.getId());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                String TAG = "";
+                Log.w(TAG, "Error", e);
+            }
+        });
         Intent cancha = new Intent(this, Marcador.class);
         startActivity(cancha);
         finish();    }
