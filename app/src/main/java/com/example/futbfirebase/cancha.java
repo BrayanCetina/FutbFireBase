@@ -25,13 +25,15 @@ import java.util.Map;
 
 import io.opencensus.tags.Tag;
 
+import static android.content.ContentValues.TAG;
+
 public class cancha extends AppCompatActivity {
     ProgressBar barra;
     TextView txtUser;
     TextView txtMarcador;
     ImageView img;
     int contador =0;
-    public static int ESPERA=60000;
+    public static int ESPERA=10000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +67,11 @@ public class cancha extends AppCompatActivity {
         db.collection("Marcadores").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                String TAG = "";
                 Log.d(TAG,"Document" + documentReference.getId());
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                String TAG = "";
                 Log.w(TAG, "Error", e);
             }
         });
