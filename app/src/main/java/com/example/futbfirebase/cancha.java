@@ -90,7 +90,7 @@ public class cancha extends AppCompatActivity {
             RelativeLayout layout= (RelativeLayout) findViewById(R.id.cacha2_xml);
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(190, 190);
             int left = (int) (Math.random() * 950) + 90;
-            int top = (int) (Math.random() * 550) + 1;
+            int top = (int) (Math.random() * 1300) + 1;
             params.leftMargin = left;
             params.topMargin = top;
             //Carga imagen de recursos

@@ -12,86 +12,25 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.io.InputStream;
 
-public class Adaptador extends BaseAdapter {
-    private static LayoutInflater inflater = null;
-    Context contexto;
-    String[] ids;
-    String[] img;
-    String[] titulo;
-    String[] contenido;
-    Bitmap bitmap;
+public class Adaptador extends RecyclerView.Adapter {
 
-    public Adaptador(Context contexto, String[] ids, String[] img, String[] titulo, String[] contenido) {
-        this.contexto = contexto;
-        this.ids = ids;
-        this.img = img;
-        this.titulo = titulo;
-        this.contenido = contenido;
-        inflater = (LayoutInflater) contexto.getSystemService(contexto.LAYOUT_INFLATER_SERVICE);
-    }
+    public  class ViewHolder extends RecyclerView.ViewHolder{
 
-    @Override
-    public int getCount() {
-        return img.length;
-    }
+        private TextView User;
+        private TextView Marcador;
 
-    @Override
-    public Object getItem(int i) {
-        return null;
-    }
+        public View view;
 
-    @Override
-    public long getItemId(int i) {
-        return 0;
-    }
+        public  ViewHolder (View view){
+            super(view);
 
-    @Override
-    public View getView(final int i, View view, ViewGroup viewGroup) {
-
-        final View vista = inflater.inflate(R.layout.item,null);
-        TextView Titulo = (TextView) vista.findViewById(R.id.tvTitulo);
-        TextView Contenido = (TextView) vista.findViewById(R.id.tvContenido);
-        ImageView IMGURL = (ImageView) vista.findViewById(R.id.imfFoto);
-
-
-        Titulo.setText(titulo[i]);
-        Contenido.setText(contenido[i]);
-        new GetImageFromURL(IMGURL).execute(img[i]);
-
-        IMGURL.setTag(i);
-        return vista;
-    }
-
-    public class GetImageFromURL extends AsyncTask<String, Void, Bitmap> {
-
-        ImageView imgView;
-
-        public GetImageFromURL(ImageView imgv) {
-            this.imgView = imgv;
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... url) {
-            String urldisplay = url[0];
-            bitmap = null;
-
-            try {
-                InputStream ist = new java.net.URL(urldisplay).openStream();
-                bitmap = BitmapFactory.decodeStream(ist);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-
-            return bitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-
-            super.onPostExecute(bitmap);
-            imgView.setImageBitmap(bitmap);
+            this.view = view;
+            this.User = (TextView) view.findViewById(R.id.tvTitulo);
+            this.Marcador = (TextView) view.findViewById(R.id.tvContenido);
         }
     }
 
