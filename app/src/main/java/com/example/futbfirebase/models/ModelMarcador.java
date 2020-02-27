@@ -1,29 +1,19 @@
 package com.example.futbfirebase.models;
 
 public class ModelMarcador {
-    private String User;
-    private String Marcador;
+    private String Texto;
 
     public ModelMarcador(){}
 
-    public ModelMarcador(String User, String Marcador){
-        this.User = User;
-        this.Marcador = Marcador;
+    public ModelMarcador(String Texto){
+        this.Texto = Texto;
     }
 
-    public String getUser() {
-        return User;
+    public String getTexto() {
+        return Texto;
     }
 
-    public void setUser(String user) {
-        User = user;
-    }
-
-    public String getMarcador() {
-        return Marcador;
-    }
-
-    public void setMarcador(String marcador) {
-        Marcador = marcador;
+    public void setTexto(String texto) {
+        Texto = texto;
     }
 }

@@ -12,11 +12,46 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.InputStream;
+import com.example.futbfirebase.models.ModelMarcador;
 
-public class Adaptador extends RecyclerView.Adapter {
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Adaptador extends RecyclerView.Adapter <Adaptador.ViewHolder> {
+
+    private int resource;
+    private ArrayList<ModelMarcador> usuarios;
+    private ArrayList<ModelMarcador> puntos;
+
+    public Adaptador(ArrayList<ModelMarcador> usuarios,ArrayList<ModelMarcador> puntos, int resource){
+        this.usuarios = usuarios;
+        this.puntos = puntos;
+        this.resource = resource;
+    }
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(resource,viewGroup,false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+        ModelMarcador us = usuarios.get(position);
+        ModelMarcador pt = puntos.get(position);
+
+        viewHolder.User.setText(us.getTexto());
+        viewHolder.Marcador.setText(pt.getTexto());
+    }
+
+    @Override
+    public int getItemCount() {
+        return 0;
+    }
 
     public  class ViewHolder extends RecyclerView.ViewHolder{
 
