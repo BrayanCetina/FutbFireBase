@@ -44,35 +44,11 @@ public class Marcador extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marcador);
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        getUsers();
-    }
-
-    private void getUsers(){
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("Marcadores").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds : dataSnapshot.getChildren()){
-                    String user = ds.child("usuario").getValue().toString();
-                    String puntosM = ds.child("puntos").getValue().toString();
-                    modelMarcadorsU.add(new ModelMarcador(user));
-                    modelMarcadorsP.add(new ModelMarcador(puntosM));
-                }
-                adaptador = new Adaptador(modelMarcadorsU,modelMarcadorsP,R.layout.item);
-                recyclerView.setAdapter(adaptador);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    public void douc(){
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(llm);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users")
+        db.collection("Marcadores")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -80,11 +56,18 @@ public class Marcador extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
+                                String user = document.getString("usuario");
+                                String puntosM = document.getString("puntos");
+                                modelMarcadorsU.add(new ModelMarcador(user));
+                                modelMarcadorsP.add(new ModelMarcador(puntosM));
                             }
+                            adaptador = new Adaptador(modelMarcadorsU,modelMarcadorsP,R.layout.item);
+
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
                         }
                     }
                 });
+        recyclerView.setAdapter(adaptador);
     }
 }
